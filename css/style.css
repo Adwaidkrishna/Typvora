@@ -163,8 +163,8 @@ main {
     background: var(--panel-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--pill-radius);
-    padding: 6px;
-    display: flex;
+    padding: 6px 12px;
+    display: inline-flex;
     gap: 8px;
     align-items: center;
     margin-bottom: 35px;
@@ -172,47 +172,59 @@ main {
     -webkit-backdrop-filter: blur(20px);
     box-shadow: var(--card-shadow);
     max-width: 100%;
-    overflow-x: auto;
+    height: 50px;
+    overflow: visible; /* Crucial for absolute positioned dropdown overlays */
 }
 
 .config-group {
     display: flex;
     gap: 4px;
+    align-items: center;
+    height: 100%;
 }
 
 .config-group:not(:last-child)::after {
     content: "";
     width: 1px;
-    height: 16px;
+    height: 18px;
     background: var(--border-color);
     align-self: center;
-    margin-left: 8px;
-    margin-right: 4px;
+    margin-left: 12px;
+    margin-right: 12px;
 }
 
 .config-btn {
     background: transparent;
-    border: none;
+    border: 1px solid transparent;
     color: var(--sub-color);
-    padding: 8px 16px;
+    padding: 0 16px;
+    height: 36px;
     border-radius: var(--pill-radius);
     font-size: 13.5px;
     font-weight: 500;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     transition: var(--transition-smooth);
 }
 
 .config-btn:hover {
     color: var(--text-color);
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+body[data-theme="midnight-slate"] .config-btn:hover,
+body[data-theme="cobalt-neon"] .config-btn:hover {
+    background-color: rgba(255, 255, 255, 0.04);
 }
 
 .config-btn.active {
-    background-color: var(--panel-bg);
-    color: var(--accent-color);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: var(--key-bg) !important;
+    color: var(--accent-color) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02) !important;
     font-weight: 600;
 }
 
