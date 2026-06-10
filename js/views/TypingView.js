@@ -173,6 +173,9 @@ export class TypingView {
             firstWord.classList.add("active");
             const firstLetter = firstWord.querySelector('.letter[data-letter-idx="0"]');
             if (firstLetter) firstLetter.classList.add("active");
+            
+            // Apply line fading to the first word
+            this.updateLineFading(firstWord);
         }
 
         // Reset scroll
@@ -243,6 +246,9 @@ export class TypingView {
 
         this.updateCaretPosition(newWordIdx, newLetterIdx);
         this.scrollActiveWordIntoView(activeWordEl);
+        
+        // Update line fading based on active word line
+        this.updateLineFading(activeWordEl);
     }
 
     updateCaretPosition(wordIdx = null, letterIdx = null) {
@@ -568,6 +574,37 @@ export class TypingView {
                 // For other modes, show elapsed time or remaining count
                 this.hudTimer.textContent = timeLeft + "s";
             }
+        }
+    }
+
+    updateLineFading(activeWordEl) {
+        if (!activeWordEl) return;
+        const activeOffsetTop = activeWordEl.offsetTop;
+        const allWords = this.wordsContainer.querySelectorAll(".word");
+        
+        allWords.forEach(wordEl => {
+            if (wordEl.offsetTop === activeOffsetTop) {
+                wordEl.classList.remove("faded-line");
+            } else {
+                wordEl.classList.add("faded-line");
+            }
+        });
+    }
+
+    highlightExpectedKey(expectedChar) {
+        // Clear previous expected highlights
+        this.keyboardContainer.querySelectorAll(".key.expected").forEach(k => k.classList.remove("expected"));
+
+        if (!expectedChar) return;
+
+        let keyQuery = expectedChar.toLowerCase();
+        if (keyQuery === " ") {
+            keyQuery = "space";
+        }
+
+        const keyEl = this.keyboardContainer.querySelector(`.key[data-key="${keyQuery}"]`);
+        if (keyEl) {
+            keyEl.classList.add("expected");
         }
     }
 }
