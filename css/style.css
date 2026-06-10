@@ -63,6 +63,33 @@ body[data-theme="cobalt-neon"] {
         radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.06) 0%, transparent 40%);
 }
 
+/* Atmospheric Vignette Overlay for Focus Mode */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 35%, rgba(0, 0, 0, 0.02) 100%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+body[data-theme="midnight-slate"]::after {
+    background: radial-gradient(circle at center, transparent 35%, rgba(15, 23, 42, 0.25) 100%);
+}
+
+body[data-theme="cobalt-neon"]::after {
+    background: radial-gradient(circle at center, transparent 35%, rgba(10, 15, 30, 0.35) 100%);
+}
+
+body.distraction-free::after {
+    opacity: 1;
+}
+
 /* Scrollbars */
 ::-webkit-scrollbar {
     width: 6px;
@@ -278,7 +305,7 @@ body[data-theme="cobalt-neon"] .config-btn:hover {
     background: transparent;
     border: none;
     padding: 24px 0;
-    transform: scale(0.96) translateY(0);
+    transform: scale(0.94) translateY(0);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0s, 
                 max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0s, 
                 opacity 0.35s ease-out 0s;
@@ -288,7 +315,7 @@ body[data-theme="cobalt-neon"] .config-btn:hover {
     font-family: 'Roboto Mono', monospace;
     font-size: var(--user-font-size, 23px);
     line-height: 1.7;
-    height: 155px;
+    height: 165px; /* updated from 155px to support zoomed focus mode height */
     overflow: hidden;
     position: relative;
     user-select: none;
@@ -1308,18 +1335,75 @@ body.distraction-free footer {
 /* Step 2 & 3: Move and expand typing area (150ms - 500ms) */
 body.distraction-free .typing-box {
     max-width: 1250px;
-    transform: scale(1.0) translateY(-60px);
+    transform: scale(1.04) translateY(-85px);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, 
                 max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, 
                 opacity 0.35s ease-out 0.15s;
 }
 
+body.distraction-free #words-container {
+    line-height: 1.95;
+}
+
+body.distraction-free #caret {
+    width: 3px;
+    box-shadow: 0 0 12px var(--caret-color), 0 0 4px var(--caret-color);
+}
+
 /* Step 4: Animate statistics (immersive-hud) into positions (250ms - 550ms) */
 body.distraction-free #immersive-hud {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    width: auto;
     opacity: 1;
     pointer-events: auto;
-    transform: translateX(-50%) translateY(-120px) scale(1);
+    transform: translateX(-50%) translateY(-145px) scale(1);
     transition: opacity 0.3s ease-out 0.25s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+}
+
+body.distraction-free #immersive-hud .hud-left,
+body.distraction-free #immersive-hud .hud-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+}
+
+body.distraction-free #immersive-hud .hud-metric,
+body.distraction-free #immersive-hud .hud-left {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 4px;
+}
+
+body.distraction-free #immersive-hud .hud-val,
+body.distraction-free #immersive-hud #hud-timer {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-color);
+    line-height: 1;
+}
+
+body.distraction-free #immersive-hud #hud-timer {
+    color: var(--accent-color);
+}
+
+body.distraction-free #immersive-hud .hud-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--sub-color);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 2px;
 }
 
 body:not(.distraction-free) #immersive-hud {
@@ -1331,32 +1415,32 @@ body:not(.distraction-free) #immersive-hud {
 
 /* Step 5: Reposition the virtual keyboard (350ms - 650ms) */
 body.distraction-free #keyboard-container {
-    opacity: 1;
+    opacity: 0.95;
     visibility: visible;
-    transform: translateY(-30px);
-    max-width: 1100px;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.35s,
-                max-width 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.35s,
-                opacity 0.3s ease-out 0.35s;
+    transform: translateY(-135px);
+    max-width: 1000px;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.35s,
+                max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.35s,
+                opacity 0.35s ease-out 0.35s;
 }
 
 /* Focus Background mesh dimming */
 body.distraction-free {
     background-image: 
-        radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.02) 0%, transparent 40%),
-        radial-gradient(circle at 85% 80%, rgba(168, 85, 247, 0.03) 0%, transparent 40%);
+        radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.01) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(168, 85, 247, 0.015) 0%, transparent 40%);
 }
 
 body[data-theme="midnight-slate"].distraction-free {
     background-image: 
-        radial-gradient(circle at 15% 20%, rgba(96, 165, 250, 0.04) 0%, transparent 45%),
-        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.04) 0%, transparent 45%);
+        radial-gradient(circle at 15% 20%, rgba(96, 165, 250, 0.02) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.02) 0%, transparent 45%);
 }
 
 body[data-theme="cobalt-neon"].distraction-free {
     background-image: 
-        radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 45%),
-        radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.03) 0%, transparent 40%);
+        radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.02) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.02) 0%, transparent 40%);
 }
 
 /* Faded Line and Expected Key highlight styles */
@@ -1368,10 +1452,22 @@ body[data-theme="cobalt-neon"].distraction-free {
     opacity: 0.35;
 }
 
+/* Quiet Coach key states */
+body.distraction-free .key {
+    opacity: 0.35;
+    transition: opacity 0.25s ease, background-color 0.15s ease, transform 0.05s ease;
+}
+
+body.distraction-free .key.expected,
+body.distraction-free .key.active {
+    opacity: 1;
+}
+
 .key.expected {
     border: 2px solid var(--accent-color) !important;
-    box-shadow: 0 0 12px rgba(37, 99, 235, 0.25) !important;
-    background-color: rgba(37, 99, 235, 0.08) !important;
+    box-shadow: 0 0 16px rgba(37, 99, 235, 0.35) !important;
+    background-color: var(--accent-color) !important;
+    color: var(--key-active-text) !important;
     font-weight: 700 !important;
-    transform: scale(1.03);
+    transform: scale(1.05);
 }
