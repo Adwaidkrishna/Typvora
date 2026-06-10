@@ -1242,18 +1242,25 @@ body[data-theme="cobalt-neon"] .dropdown-item.active {
 }
 
 /* Distraction-Free Mode Transition & Collapsing layouts */
+header, 
 .config-bar-container, 
 #timer-display, 
 .controls-row, 
 .hint-text, 
 footer {
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out, max-height 0.4s ease-out, margin 0.4s ease-out, padding 0.4s ease-out, visibility 0.4s ease-out;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out, max-height 0.3s ease-out, margin 0.3s ease-out, padding 0.3s ease-out, visibility 0.3s ease-out;
     max-height: 200px;
 }
 
 body.distraction-free header {
-    opacity: 0.15;
-    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 body.distraction-free .config-bar-container {
