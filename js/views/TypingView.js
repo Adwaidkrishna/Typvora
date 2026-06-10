@@ -134,18 +134,6 @@ export class TypingView {
     renderWords(wordsData) {
         this.wordsContainer.innerHTML = "";
         
-        // Add a hidden input to capture keystrokes on mobile & desktop focus
-        if (!document.getElementById("focus-input")) {
-            const input = document.createElement("input");
-            input.type = "text";
-            input.id = "focus-input";
-            input.style.position = "absolute";
-            input.style.opacity = "0";
-            input.style.pointerEvents = "none";
-            input.style.left = "-9999px";
-            this.wordsContainer.appendChild(input);
-        }
-
         // Re-append caret
         this.caret.classList.remove("hidden");
         this.caret.classList.add("blinking");
