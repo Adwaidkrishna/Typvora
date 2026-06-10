@@ -63,7 +63,10 @@ export class TypingEngineController {
             // Skip printable keys if focusInput is active (handled by input listener)
             if (document.activeElement.id === "focus-input") {
                 if (key === "Backspace" || key === " ") {
-                    if (key === " ") e.preventDefault();
+                    if (key === " ") {
+                        e.preventDefault();
+                        this.handleKeyStroke(" ");
+                    }
                 }
                 return;
             }
