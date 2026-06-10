@@ -166,5 +166,18 @@ export class TypingEngineController {
 
             this.views.typing.updateActiveIndicators(oldWordIdx, oldLetterIdx, newWordIdx, newLetterIdx, this.models.typing.words);
         }
+
+        // Update real-time HUD instantly on keystroke if the test is active
+        if (this.models.typing.isTestActive) {
+            const elapsedMins = this.models.typing.getElapsedTimeSeconds() / 60;
+            const stats = this.models.typing.getCurrentStats(elapsedMins);
+            this.views.typing.updateRealtimeHUD(
+                stats.wpm,
+                stats.accuracy,
+                this.models.typing.errorKeystrokes,
+                this.models.typing.timeLeft,
+                this.models.typing.mode
+            );
+        }
     }
 }
