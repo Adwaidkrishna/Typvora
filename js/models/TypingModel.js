@@ -419,4 +419,17 @@ export class TypingModel {
         }
         return false;
     }
+
+    getExpectedChar() {
+        if (this.isTestCompleted) return null;
+        const currentWord = this.words[this.activeWordIndex];
+        if (!currentWord) return null;
+        
+        if (this.activeLetterIndex < currentWord.letters.length) {
+            return currentWord.letters[this.activeLetterIndex].char;
+        } else {
+            // Space expected to commit word
+            return " ";
+        }
+    }
 }
