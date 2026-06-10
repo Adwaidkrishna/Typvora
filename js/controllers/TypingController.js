@@ -86,6 +86,10 @@ export class TypingController {
         // Reset virtual key states
         this.views.typing.keyboardContainer.querySelectorAll(".key").forEach(k => k.classList.remove("active"));
 
+        // Highlight first expected key
+        const expectedChar = this.models.typing.getExpectedChar();
+        this.views.typing.highlightExpectedKey(expectedChar);
+
         // Force capture cursor focus
         this.views.typing.focusTyping();
     }
