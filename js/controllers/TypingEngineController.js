@@ -8,20 +8,8 @@ export class TypingEngineController {
     }
 
     init() {
-        this.focusInput = document.getElementById("focus-input") || this.createFocusInput();
+        this.focusInput = document.getElementById("focus-input");
         this.bindEvents();
-    }
-
-    createFocusInput() {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.id = "focus-input";
-        input.style.position = "absolute";
-        input.style.opacity = "0";
-        input.style.pointerEvents = "none";
-        input.style.left = "-9999px";
-        this.views.typing.wordsContainer.appendChild(input);
-        return input;
     }
 
     bindEvents() {
