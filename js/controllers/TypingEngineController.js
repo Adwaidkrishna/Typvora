@@ -179,5 +179,9 @@ export class TypingEngineController {
                 this.models.typing.mode
             );
         }
+
+        // Update highlighted expected key after the keystroke is processed
+        const expectedChar = this.models.typing.getExpectedChar();
+        this.views.typing.highlightExpectedKey(expectedChar);
     }
 }
