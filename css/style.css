@@ -1242,32 +1242,24 @@ body[data-theme="cobalt-neon"] .dropdown-item.active {
 }
 
 /* Distraction-Free Mode Transition & Collapsing layouts */
-header, 
 .config-bar-container, 
 #timer-display, 
 .controls-row, 
 .hint-text, 
-#keyboard-container, 
 footer {
     transition: opacity 0.4s ease-out, transform 0.4s ease-out, max-height 0.4s ease-out, margin 0.4s ease-out, padding 0.4s ease-out, visibility 0.4s ease-out;
     max-height: 200px;
 }
 
 body.distraction-free header {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-20px);
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-top: 0;
-    margin-bottom: 0;
+    opacity: 0.15;
+    pointer-events: none;
 }
 
 body.distraction-free .config-bar-container {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-20px);
+    transform: translateY(-15px);
     max-height: 0;
     padding-top: 0;
     padding-bottom: 0;
@@ -1312,6 +1304,7 @@ body.distraction-free #keyboard-container {
     transform: translateY(0);
     margin-top: 24px;
     max-height: 200px;
+    max-width: 1100px;
 }
 
 body.distraction-free footer {
@@ -1328,11 +1321,35 @@ body.distraction-free footer {
 
 /* Typing Box Scale/Zoom on active writing */
 body.distraction-free .typing-box {
-    transform: scale(1.02);
-    transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
+    max-width: 1250px;
+    transform: scale(1.0);
+    padding: 40px 48px;
+    transition: max-width 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                padding 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.08), 
                 0 1px 3px rgba(0, 0, 0, 0.02),
                 0 0 0 1px var(--border-color);
+}
+
+/* Focus Background mesh dimming */
+body.distraction-free {
+    background-image: 
+        radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.02) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(168, 85, 247, 0.03) 0%, transparent 40%);
+}
+
+body[data-theme="midnight-slate"].distraction-free {
+    background-image: 
+        radial-gradient(circle at 15% 20%, rgba(96, 165, 250, 0.04) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.04) 0%, transparent 45%);
+}
+
+body[data-theme="cobalt-neon"].distraction-free {
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.03) 0%, transparent 40%);
 }
 
 /* Faded Line and Expected Key highlight styles */
