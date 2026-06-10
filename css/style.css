@@ -395,8 +395,9 @@ body[data-theme="cobalt-neon"] .config-btn:hover {
 /* Chromebook Keycaps visualizer */
 #keyboard-container {
     width: 100%;
-    max-width: 780px;
+    max-width: 1100px;
     margin-top: 35px;
+    transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), max-height 0.4s ease-out, margin 0.4s ease-out, visibility 0.4s ease-out;
 }
 
 #keyboard-container.hidden {
@@ -1295,15 +1296,11 @@ body.distraction-free .hint-text {
 }
 
 body.distraction-free #keyboard-container {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(30px);
-    max-height: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    border: none;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    margin-top: 24px;
+    max-height: 200px;
 }
 
 body.distraction-free footer {
@@ -1320,7 +1317,26 @@ body.distraction-free footer {
 
 /* Typing Box Scale/Zoom on active writing */
 body.distraction-free .typing-box {
-    transform: scale(1.05);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1), box-shadow 0.4s ease-out;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.03);
+    transform: scale(1.02);
+    transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.08), 
+                0 1px 3px rgba(0, 0, 0, 0.02),
+                0 0 0 1px var(--border-color);
+}
+
+/* Faded Line and Expected Key highlight styles */
+.word {
+    transition: opacity 0.25s ease;
+}
+
+.word.faded-line {
+    opacity: 0.35;
+}
+
+.key.expected {
+    border: 2px solid var(--accent-color) !important;
+    box-shadow: 0 0 12px rgba(37, 99, 235, 0.25) !important;
+    background-color: rgba(37, 99, 235, 0.08) !important;
+    font-weight: 700 !important;
+    transform: scale(1.03);
 }
