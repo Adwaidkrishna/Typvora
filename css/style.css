@@ -275,17 +275,12 @@ body[data-theme="cobalt-neon"] .config-btn:hover {
 .typing-box {
     width: 100%;
     max-width: 950px;
-    background: var(--panel-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--widget-radius);
-    padding: 36px 44px;
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    box-shadow: var(--card-shadow);
+    background: transparent;
+    border: none;
+    padding: 24px 0;
     transform: scale(0.96);
     transition: max-width 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
                 transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
-                box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
                 padding 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -1330,14 +1325,10 @@ body.distraction-free footer {
 body.distraction-free .typing-box {
     max-width: 1250px;
     transform: scale(1.0);
-    padding: 40px 48px;
+    padding: 24px 0;
     transition: max-width 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
                 transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
-                box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
                 padding 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.08), 
-                0 1px 3px rgba(0, 0, 0, 0.02),
-                0 0 0 1px var(--border-color);
 }
 
 /* Focus Background mesh dimming */
