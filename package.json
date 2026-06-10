@@ -1,0 +1,16 @@
+{
+  "name": "typepro",
+  "version": "1.0.0",
+  "description": "Premium typing practice website with iOS-style glassmorphic UI.",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vite": "^4.4.9"
+  }
+}

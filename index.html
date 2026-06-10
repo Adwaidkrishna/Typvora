@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TypePro — Premium Typing Practice</title>
+    <meta name="description" content="A premium iOS-style glassmorphic typing practice web app featuring fluid caret motion, multiple typing modes, mechanical click audio, visual keyboard, and real-time statistics charts.">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./css/style.css">
+    
+    <!-- Icons (FontAwesome CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js for statistics graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="logo-container" id="logo-refresh">
+            <h1 class="logo-text">Type<span class="logo-accent">Pro</span></h1>
+        </div>
+        <nav>
+            <button class="nav-btn" id="theme-toggle-btn" title="Choose Theme" aria-label="Theme Selection">
+                <i class="fa-solid fa-palette"></i>
+            </button>
+            <button class="nav-btn" id="history-btn" title="History & Stats" aria-label="History Stats">
+                <i class="fa-solid fa-chart-line"></i>
+            </button>
+            <button class="nav-btn" id="settings-btn" title="Settings" aria-label="Settings Menu">
+                <i class="fa-solid fa-sliders"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Workspace -->
+    <main>
+        
+        <!-- Mode & Sub-Configuration Panel -->
+        <section class="config-bar-container">
+            <div class="config-group">
+                <button class="config-btn mode-btn active" data-mode="time"><i class="fa-regular fa-clock"></i> time</button>
+                <button class="config-btn mode-btn" data-mode="words"><i class="fa-solid fa-font"></i> words</button>
+                <button class="config-btn mode-btn" data-mode="row"><i class="fa-solid fa-layer-group"></i> key rows</button>
+                <button class="config-btn mode-btn" data-mode="custom"><i class="fa-solid fa-keyboard"></i> custom</button>
+            </div>
+            
+            <!-- Subconfigs -->
+            <div class="config-group">
+                <div class="subconfig" id="time-subconfig">
+                    <button class="config-btn" data-time="15">15</button>
+                    <button class="config-btn active" data-time="30">30</button>
+                    <button class="config-btn" data-time="60">60</button>
+                    <button class="config-btn" data-time="120">120</button>
+                </div>
+                
+                <div class="subconfig hidden" id="words-subconfig">
+                    <button class="config-btn" data-words="10">10</button>
+                    <button class="config-btn active" data-words="25">25</button>
+                    <button class="config-btn" data-words="50">50</button>
+                    <button class="config-btn" data-words="100">100</button>
+                </div>
+
+                <div class="subconfig hidden" id="row-subconfig">
+                    <div class="dropdown-wrapper">
+                        <button class="config-btn dropdown-trigger" id="row-dropdown-btn" aria-haspopup="listbox" aria-expanded="false">
+                            home <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-left: 4px;"></i>
+                        </button>
+                        <div class="dropdown-menu hidden" id="row-dropdown-menu" role="listbox">
+                            <div class="dropdown-item active" data-row="home" role="option" aria-selected="true">home row</div>
+                            <div class="dropdown-item" data-row="top" role="option">top row</div>
+                            <div class="dropdown-item" data-row="bottom" role="option">bottom row</div>
+                            <div class="dropdown-item" data-row="home_top" role="option">home + top</div>
+                            <div class="dropdown-item" data-row="home_bottom" role="option">home + bottom</div>
+                            <div class="dropdown-item" data-row="top_bottom" role="option">top + bottom</div>
+                            <div class="dropdown-item" data-row="mixed" role="option">all rows</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subconfig hidden" id="custom-subconfig">
+                    <span style="font-size: 13px; color: var(--sub-color); padding: 8px 10px;">configure in settings</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Content Section -->
+        
+        <!-- 1. Typing Playground -->
+        <section id="test-section">
+            <div id="timer-display" aria-live="polite">30</div>
+            
+            <div class="typing-box">
+                <div id="words-container" tabindex="0">
+                    <div id="caret" class="blinking"></div>
+                    <!-- Words and letter spans injected here by View -->
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <button class="restart-btn" aria-label="Restart Practice">
+                    <i class="fa-solid fa-rotate-right"></i> Restart
+                </button>
+            </div>
+            <div class="hint-text">
+                Tap text area to focus. Press <span class="key-hint">Tab</span> to instantly restart.
+            </div>
+        </section>
+
+        <!-- 2. Test Results Screen -->
+        <section id="results-section" class="hidden">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">wpm</div>
+                    <div class="stat-value" id="wpm-val">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">accuracy</div>
+                    <div class="stat-value" id="accuracy-val">100%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">raw wpm</div>
+                    <div class="stat-value" id="raw-wpm-val">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">test time</div>
+                    <div class="stat-value" id="time-val">30s</div>
+                </div>
+                <div class="stat-card" style="grid-column: span 2;">
+                    <div class="stat-label">characters (correct/incorrect/extra)</div>
+                    <div class="stat-value" id="chars-val" style="font-size: 30px;">0/0/0</div>
+                </div>
+            </div>
+
+            <!-- Graph visualizer -->
+            <div class="chart-card">
+                <canvas id="performance-chart"></canvas>
+            </div>
+
+            <div class="controls-row">
+                <button class="restart-btn" aria-label="Start New Practice">
+                    <i class="fa-solid fa-chevron-right"></i> Next Test
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. Touch-friendly Virtual Keyboard Visualizer -->
+        <section id="keyboard-container">
+            <div class="keyboard">
+                <div class="keyboard-row">
+                    <div class="key" id="key-KeyQ" data-key="q">q</div>
+                    <div class="key" id="key-KeyW" data-key="w">w</div>
+                    <div class="key" id="key-KeyE" data-key="e">e</div>
+                    <div class="key" id="key-KeyR" data-key="r">r</div>
+                    <div class="key" id="key-KeyT" data-key="t">t</div>
+                    <div class="key" id="key-KeyY" data-key="y">y</div>
+                    <div class="key" id="key-KeyU" data-key="u">u</div>
+                    <div class="key" id="key-KeyI" data-key="i">i</div>
+                    <div class="key" id="key-KeyO" data-key="o">o</div>
+                    <div class="key" id="key-KeyP" data-key="p">p</div>
+                    <div class="key" id="key-Backspace" data-key="backspace" style="font-size: 12px;"><i class="fa-solid fa-delete-left"></i></div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key" id="key-KeyA" data-key="a">a</div>
+                    <div class="key" id="key-KeyS" data-key="s">s</div>
+                    <div class="key" id="key-KeyD" data-key="d">d</div>
+                    <div class="key" id="key-KeyF" data-key="f">f</div>
+                    <div class="key" id="key-KeyG" data-key="g">g</div>
+                    <div class="key" id="key-KeyH" data-key="h">h</div>
+                    <div class="key" id="key-KeyJ" data-key="j">j</div>
+                    <div class="key" id="key-KeyK" data-key="k">k</div>
+                    <div class="key" id="key-KeyL" data-key="l">l</div>
+                    <div class="key" id="key-Semicolon" data-key=";">;</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key" id="key-KeyZ" data-key="z">z</div>
+                    <div class="key" id="key-KeyX" data-key="x">x</div>
+                    <div class="key" id="key-KeyC" data-key="c">c</div>
+                    <div class="key" id="key-KeyV" data-key="v">v</div>
+                    <div class="key" id="key-KeyB" data-key="b">b</div>
+                    <div class="key" id="key-KeyN" data-key="n">n</div>
+                    <div class="key" id="key-KeyM" data-key="m">m</div>
+                    <div class="key" id="key-Comma" data-key=",">,</div>
+                    <div class="key" id="key-Period" data-key=".">.</div>
+                    <div class="key" id="key-Slash" data-key="/">/</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key" id="key-Space" data-key="space"><i class="fa-solid fa-left-right"></i></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Theme Selection Sheet/Modal -->
+    <div class="modal" id="theme-modal" role="dialog" aria-modal="true" aria-labelledby="theme-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="theme-title"><i class="fa-solid fa-palette"></i> Themes</h2>
+                <button class="close-btn" id="close-theme-btn" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="theme-grid">
+                    <!-- Themes generated by Model/View here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Sheet/Modal -->
+    <div class="modal" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="settings-title"><i class="fa-solid fa-sliders"></i> Settings</h2>
+                <button class="close-btn" id="close-settings-btn" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <!-- Sound Option -->
+                <div class="settings-group">
+                    <label for="sound-type-select">Key Click Sounds</label>
+                    <select id="sound-type-select">
+                        <option value="mute">Muted (None)</option>
+                        <option value="clicky">Cherry MX Blue (Clicky)</option>
+                        <option value="tactile" selected>Cherry MX Brown (Tactile)</option>
+                        <option value="linear">Lubed Linear (Thocky)</option>
+                    </select>
+                </div>
+                
+                <!-- Volume Slider -->
+                <div class="settings-group">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <label for="volume-range">Click Volume</label>
+                        <span id="volume-val" style="font-size:12px; color:var(--accent-color); font-family:monospace;">50%</span>
+                    </div>
+                    <input type="range" id="volume-range" min="0" max="1" step="0.05" value="0.5">
+                </div>
+
+                <!-- Keyboard Toggle -->
+                <div class="settings-group switch-container">
+                    <label for="keyboard-toggle">On-Screen Keyboard Visualizer</label>
+                    <label class="ios-switch">
+                        <input type="checkbox" id="keyboard-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Font size and font choices -->
+                <div class="settings-group">
+                    <label for="font-size-select">Text Font Size</label>
+                    <select id="font-size-select">
+                        <option value="20px">Small (20px)</option>
+                        <option value="24px" selected>Normal (24px)</option>
+                        <option value="28px">Large (28px)</option>
+                        <option value="34px">Extra Large (34px)</option>
+                    </select>
+                </div>
+
+                <div class="settings-group">
+                    <label for="font-family-select">Typography Style</label>
+                    <select id="font-family-select">
+                        <option value="'Roboto Mono', monospace" selected>Roboto Mono (Default)</option>
+                        <option value="Courier New, monospace">Courier Classic</option>
+                        <option value="'Plus Jakarta Sans', sans-serif">Plus Jakarta Sans (Rounded)</option>
+                        <option value="'Inter', sans-serif">Inter (Modern Sans)</option>
+                    </select>
+                </div>
+
+                <!-- Custom Text config -->
+                <div class="settings-group">
+                    <label for="custom-text-input">Custom Practice Text</label>
+                    <textarea id="custom-text-input" rows="4" placeholder="Paste custom paragraphs here..."></textarea>
+                    <button class="submit-btn" id="custom-text-submit" style="margin-top: 10px;">Save & Apply Custom Text</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Bottom Sheet (Drawer) -->
+    <div class="drawer" id="history-drawer" role="dialog" aria-modal="true" aria-labelledby="history-title">
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <h2 id="history-title"><i class="fa-solid fa-chart-line"></i> Dashboard</h2>
+                <button class="close-btn" id="close-history-btn" aria-label="Close drawer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="drawer-body">
+                <!-- Summary Card -->
+                <div class="settings-group">
+                    <label>Averages & Totals</label>
+                    <div class="history-summary">
+                        <div class="sum-item">
+                            <span class="sum-label">Tests</span>
+                            <span class="sum-val" id="sum-tests">0</span>
+                        </div>
+                        <div class="sum-item">
+                            <span class="sum-label">Avg WPM</span>
+                            <span class="sum-val" id="sum-avg-wpm">0</span>
+                        </div>
+                        <div class="sum-item">
+                            <span class="sum-label">Best WPM</span>
+                            <span class="sum-val" id="sum-max-wpm">0</span>
+                        </div>
+                        <div class="sum-item">
+                            <span class="sum-label">Avg Acc</span>
+                            <span class="sum-val" id="sum-avg-acc">100%</span>
+                        </div>
+                        <div class="sum-item" style="grid-column: span 2; margin-top: 6px;">
+                            <span class="sum-label">Total typing time</span>
+                            <span class="sum-val" id="sum-time" style="font-size: 16px;">0s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History list -->
+                <div class="settings-group" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+                    <label>Past Results</label>
+                    <div id="history-list" style="overflow-y:auto; flex:1; margin-top:8px; padding-right:4px;">
+                        <!-- Injected rows -->
+                    </div>
+                </div>
+
+                <div class="clear-btn-wrapper">
+                    <button class="danger-btn" id="clear-history-btn"><i class="fa-solid fa-trash-can"></i> Clear All History</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div>TypePro &copy; 2026. Made with <i class="fa-solid fa-heart" style="color:var(--error-color);"></i> for typing enthusiasts.</div>
+        <div>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub</a>
+        </div>
+    </footer>
+
+    <!-- App Initialization script -->
+    <script type="module">
+        import { TypingController } from "./js/controllers/TypingController.js";
+        
+        // Wait for page to be ready
+        window.addEventListener("DOMContentLoaded", () => {
+            window.app = new TypingController();
+            
+            // Allow Logo click to reload/restart
+            document.getElementById("logo-refresh").addEventListener("click", () => {
+                if (window.app) {
+                    window.app.restartTest();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
