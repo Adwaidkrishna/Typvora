@@ -47,6 +47,10 @@ export class TypingController {
         this.typingEngineController = new TypingEngineController(this.models, this.views, this);
 
         // 3. Connect Model Event listeners to Stats Controller
+        this.models.typing.onTestStart = () => {
+            this.views.typing.setDistractionFree(true);
+        };
+
         this.models.typing.onTimerTick = (timeLeft) => {
             this.statsController.handleTimerTick(timeLeft);
         };
@@ -65,6 +69,9 @@ export class TypingController {
             top: TOP_ROW_WORDS,
             bottom: BOTTOM_ROW_WORDS
         });
+        
+        // Reset distraction free mode
+        this.views.typing.setDistractionFree(false);
         
         // Show test playground
         this.views.typing.showTestArea();

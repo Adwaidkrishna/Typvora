@@ -51,6 +51,11 @@ export class TypingView {
         this.rowOptions = document.querySelectorAll("[data-row]");
         this.rowDropdownBtn = document.getElementById("row-dropdown-btn");
         this.rowDropdownMenu = document.getElementById("row-dropdown-menu");
+        this.immersiveHUD = document.getElementById("immersive-hud");
+        this.hudTimer = document.getElementById("hud-timer");
+        this.hudWpm = document.getElementById("hud-wpm");
+        this.hudAccuracy = document.getElementById("hud-accuracy");
+        this.hudErrors = document.getElementById("hud-errors");
         this.customTextSubmit = document.getElementById("custom-text-submit");
         this.customTextInput = document.getElementById("custom-text-input");
         
@@ -536,6 +541,33 @@ export class TypingView {
         } else if (mode === "custom") {
             this.customSubconfig.classList.remove("hidden");
             this.customTextInput.value = value || "";
+        }
+    }
+
+    setDistractionFree(active) {
+        if (active) {
+            document.body.classList.add("distraction-free");
+            this.immersiveHUD.classList.remove("hidden");
+        } else {
+            document.body.classList.remove("distraction-free");
+            this.immersiveHUD.classList.add("hidden");
+        }
+    }
+
+    updateRealtimeHUD(wpm, accuracy, mistakes, timeLeft, mode) {
+        if (this.hudWpm) this.hudWpm.textContent = Math.round(wpm);
+        if (this.hudAccuracy) this.hudAccuracy.textContent = Math.round(accuracy) + "%";
+        if (this.hudErrors) this.hudErrors.textContent = mistakes;
+
+        if (this.hudTimer) {
+            if (mode === "time") {
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                this.hudTimer.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            } else {
+                // For other modes, show elapsed time or remaining count
+                this.hudTimer.textContent = timeLeft + "s";
+            }
         }
     }
 }

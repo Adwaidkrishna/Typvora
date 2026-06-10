@@ -1146,3 +1146,175 @@ body[data-theme="midnight-slate"] .dropdown-item.active {
 body[data-theme="cobalt-neon"] .dropdown-item.active {
     background-color: rgba(56, 189, 248, 0.12);
 }
+
+/* Immersive Distraction-Free HUD Styling */
+#immersive-hud {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 44px;
+    margin-bottom: 15px;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+#immersive-hud:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    display: flex;
+}
+
+#immersive-hud.hidden {
+    display: none !important;
+}
+
+.hud-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#hud-timer {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--accent-color);
+    line-height: 1.1;
+}
+
+.hud-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--sub-color);
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.hud-right {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+}
+
+.hud-metric {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.hud-val {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-color);
+    line-height: 1.1;
+    margin-top: 4px;
+}
+
+.hud-right .hud-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--sub-color);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Distraction-Free Mode Transition & Collapsing layouts */
+header, 
+.config-bar-container, 
+#timer-display, 
+.controls-row, 
+.hint-text, 
+#keyboard-container, 
+footer {
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out, max-height 0.4s ease-out, margin 0.4s ease-out, padding 0.4s ease-out, visibility 0.4s ease-out;
+    max-height: 200px;
+}
+
+body.distraction-free header {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+body.distraction-free .config-bar-container {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    border: none;
+}
+
+body.distraction-free #timer-display {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    border: none;
+}
+
+body.distraction-free .controls-row {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    max-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+body.distraction-free .hint-text {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    max-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+body.distraction-free #keyboard-container {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(30px);
+    max-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: none;
+}
+
+body.distraction-free footer {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    border: none;
+}
+
+/* Typing Box Scale/Zoom on active writing */
+body.distraction-free .typing-box {
+    transform: scale(1.05);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1), box-shadow 0.4s ease-out;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.03);
+}

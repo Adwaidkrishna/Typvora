@@ -90,6 +90,28 @@
         
         <!-- 1. Typing Playground -->
         <section id="test-section">
+            <!-- Immersive Distraction-Free HUD -->
+            <div id="immersive-hud" class="hidden">
+                <div class="hud-left">
+                    <span id="hud-timer">00:30</span>
+                    <span class="hud-label">Time Left</span>
+                </div>
+                <div class="hud-right">
+                    <div class="hud-metric">
+                        <span class="hud-val" id="hud-wpm">0</span>
+                        <span class="hud-label">WPM</span>
+                    </div>
+                    <div class="hud-metric">
+                        <span class="hud-val" id="hud-accuracy">100%</span>
+                        <span class="hud-label">Accuracy</span>
+                    </div>
+                    <div class="hud-metric">
+                        <span class="hud-val" id="hud-errors">0</span>
+                        <span class="hud-label">Mistakes</span>
+                    </div>
+                </div>
+            </div>
+
             <div id="timer-display" aria-live="polite">30</div>
             
             <div class="typing-box">

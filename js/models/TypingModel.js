@@ -25,6 +25,7 @@ export class TypingModel {
         this.historyData = []; // Array of { second: number, wpm: number, rawWpm: number, errors: number }
         
         // Callbacks for controller to listen to events
+        this.onTestStart = null;
         this.onTimerTick = null;
         this.onTestComplete = null;
     }
@@ -174,6 +175,10 @@ export class TypingModel {
     start() {
         this.isTestActive = true;
         this.startTime = Date.now();
+        
+        if (this.onTestStart) {
+            this.onTestStart();
+        }
         
         if (this.mode === "time") {
             this.timeLeft = this.duration;
