@@ -23,9 +23,24 @@ export class StatsController {
 
     handleTimerTick(timeLeft) {
         this.views.typing.updateTimer(timeLeft, this.models.typing.mode);
+        
+        // Update real-time HUD during timer ticks
+        const elapsedMins = this.models.typing.getElapsedTimeSeconds() / 60;
+        const stats = this.models.typing.getCurrentStats(elapsedMins);
+        
+        this.views.typing.updateRealtimeHUD(
+            stats.wpm,
+            stats.accuracy,
+            this.models.typing.errorKeystrokes,
+            timeLeft,
+            this.models.typing.mode
+        );
     }
 
     handleTestComplete(stats, historyData) {
+        // Deactivate distraction-free mode
+        this.views.typing.setDistractionFree(false);
+
         // Save test record
         this.models.stats.addRecord(
             stats.wpm,
