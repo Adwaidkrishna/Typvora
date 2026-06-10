@@ -28,7 +28,7 @@ export class SettingsController {
         this.views.typing.fontFamilySelect.value = savedFontFamily;
         this.views.typing.keyboardToggle.checked = savedKeyboard;
 
-        this.views.typing.wordsContainer.style.fontSize = savedFontSize;
+        this.views.typing.wordsContainer.style.setProperty('--user-font-size', savedFontSize);
         this.views.typing.wordsContainer.style.fontFamily = savedFontFamily;
         
         if (savedKeyboard) {
@@ -57,7 +57,7 @@ export class SettingsController {
         // Fonts and sizes
         this.views.typing.fontSizeSelect.addEventListener("change", (e) => {
             const val = e.target.value;
-            this.views.typing.wordsContainer.style.fontSize = val;
+            this.views.typing.wordsContainer.style.setProperty('--user-font-size', val);
             localStorage.setItem("typepro_font_size", val);
             setTimeout(() => this.views.typing.updateCaretPosition(), 50);
         });
