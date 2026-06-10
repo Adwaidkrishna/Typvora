@@ -82,14 +82,14 @@ body[data-theme="cobalt-neon"] {
 /* Header & Sleek Gradient Logo */
 header {
     width: 90%;
-    max-width: 1400px;
+    max-width: 1250px;
     margin: 0 auto;
     padding: 24px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 10;
-    transition: var(--transition-smooth);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
 .logo-container {
@@ -150,7 +150,7 @@ nav {
 main {
     flex: 1;
     width: 90%;
-    max-width: 1400px;
+    max-width: 1250px;
     margin: 0 auto;
     padding: 10px 20px 40px 20px;
     display: flex;
